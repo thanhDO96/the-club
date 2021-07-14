@@ -1,0 +1,35 @@
+<div class="row page-title">
+  	<div class="small-12 medium-4 medium-centered column">
+      <img src="https://cdn.shopify.com/s/files/1/0249/0190/files/looselipslogo.png?v=1595826949">
+	</div>
+  <br>
+  <br>
+  <br>
+</div>
+<div class="row" data-equalizer>
+    <div class="small-12 columns">
+        {% paginate blog.articles by 16 %}
+			<ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-4">
+            {% for article in blog.articles  %}
+            <li>
+	            <div class="wrap" data-equalizer-watch>
+		           <a class="post-image" href="{{ article.url }}">{{ article.image.src | img_url: 'large' | img_tag }}</a>
+	               <a class="post-title" href="{{article.url}}">{{ article.title }}</a><br>
+	               <p class="post-excerpt">
+	                 {% if article.excerpt.size > 0 %}
+		                {{ article.excerpt | strip_html }}
+		              {% else %}
+		               {{ article.content | strip_html | truncatewords: 100 | strip_html }}
+		              {% endif %}
+	               </p>
+			   <a class="post-more" href="{{ article.url }}"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+	            </div>
+			</li>
+            {% endfor %}
+			</ul>
+            {% include "pagination" %}
+
+        {% endpaginate %}
+
+    </div>
+</div>

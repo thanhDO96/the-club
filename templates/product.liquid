@@ -1,0 +1,163 @@
+{% render 'shogun-products', content: product %}
+{{product.metafields.shogun.above}}
+{% assign variety = false %}
+{% assign country = false %}
+{% assign region = false %}
+{% assign vintage = false %}
+{% assign style = false %}
+{% assign match = false %}
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+{% for tag in product.tags %}
+  {% assign currentTag = tag | downcase %}
+
+
+
+  {% if variety == false and currentTag contains 'variety-' %}
+    {% assign variety = tag | remove: 'variety-' | replace: '-', ' ' | replace: '/', ', ' %}
+  {% endif %}
+
+  {% if country == false and  currentTag contains 'country-' %}
+    {% assign country = tag | remove: 'country-' | replace: '-', ' ' | replace: '/', ', ' %}
+  {% endif %}
+
+  {% if region == false and  currentTag contains 'region-' %}
+    {% assign region = tag | remove: 'region-' | replace: '-', ' ' | replace: '/', ', ' %}
+  {% endif %}
+
+  {% if vintage == false and currentTag contains 'vintage-' %}
+    {% assign vintage = tag | remove: 'vintage-' | replace: '-', ' ' | replace: '/', ', ' %}
+  {% endif %}
+
+  {% if style == false and currentTag contains 'style-' %}
+    {% assign style = tag | remove: 'style-' | replace: '-', ' ' | replace: '/', ', ' %}
+  {% endif %}
+
+
+
+
+  {% if match == false and currentTag contains 'match-' %}
+    {% assign match = tag | remove: 'match-' | replace: '-', ' ' | replace: '/', ', ' %}
+  {% endif %}
+
+{% endfor %}
+
+	<div class="fullwidth bg-colour-white product-wrap">
+		<div class="row">
+			<div class="small-12 medium-12 large-6 columns product-gallery">
+			    
+		        <div id="product-slideshow">
+			        {% for image in product.images %}
+			        	{{ image | product_img_url: 'master' | img_tag }}
+			        {% endfor %}
+		        </div>
+		       
+		    </div>
+		    <form class="custom" action="/cart/add" method="post">
+		        <div class="small-12 medium-12 large-4 large-push-1 columns product-content js-product-content">
+		            <h1>{{ product.title }}</h1>	
+		            <h2>
+                      
+                      {% capture typehandle %}{{ product.type | handleize }}{% endcapture %}
+{% if collections[typehandle] %}
+<a href="/collections/{{ typehandle }}" title="{{ product.type | escape }}">{{ product.type }}</a>
+{% else %}
+{{ product.type | link_to_type }}
+{% endif %}
+                      
+                      
+                      </h2>
+		            <p class="product-price">
+                        {% if product.variants.first.compare_at_price > 0 %}<del>{{ product.variants.first.compare_at_price | money }}</del> {% endif %}
+                        {{ product.variants.first.price | money_without_trailing_zeros }}
+                    </p>
+		            <div class="product-description">
+		            	{{ product.description }}
+					</div>
+		          <div class="product-specifics" id="product-tags">
+<span class="tagged"></span>
+<ul class="small-block-grid-2">
+  
+							<li><p>Origin</p></li>
+  <li>
+ {% for tag in region %}
+{% capture url %}/collections/all/region-{{ tag | handle }}{% endcapture %}
+{{ tag | link_to: url }},
+{% endfor %}
+
+ {% for tag in country %}
+{% capture url %}/collections/all/country-{{ tag | handle }}{% endcapture %}
+{{ tag | link_to: url }}
+{% endfor %}
+  </li>  
+  
+							<li><p>Year</p></li>
+  <li>
+ {% for tag in vintage %}
+{% capture url %}/collections/all/vintage-{{ tag | handle }}{% endcapture %}
+{{ tag | link_to: url }}
+{% endfor %}
+  </li>  
+  
+    <li><p>Varietal</p></li>
+  <li>
+ {% for tag in variety %}
+{% capture url %}/collections/all/variety-{{ tag | handle }}{% endcapture %}
+{{ tag | link_to: url }}
+{% endfor %}
+  </li>
+                          
+                          
+           
+                          <li><p>Style</p></li>
+  <li>
+ {% for tag in style %}
+{% capture url %}/collections/all/style-{{ tag | handle }}{% endcapture %}
+{{ tag | link_to: url }}
+{% endfor %}
+  </li>  
+  
+  
+						</ul>						
+					</div>
+                  
+
+		                    
+		                    <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+		
+						<ul class="small-block-grid-2 medium-block-grid-2 product-actions">
+							<li>
+								<div class="quantity-selector">
+									<a href="#" class="qty-down">-</a>
+									<input min="1" type="number" id="quantity" name="quantity" value="1" />      
+									<a href="#" class="qty-up">+</a>      
+								</div>           
+							</li>
+		
+							<li>
+                              {% unless current_variant.available %}
+                              <button class="button-black-icon" type="button" disabled>Out of stock</button>
+                              {% else %}
+			                  <button class="button-black-icon-arrow" id="AddToCart" type="submit">Add to cart</button>
+                              {% endunless %}
+                          </li>
+
+						</ul>
+		         
+					
+		
+		        </div>
+
+		    </form>
+		
+	
+		</div>
+	</div>
+
+<div id="recommendify-similar-products" class="bg-colour-grey"
+shop="{{ shop.domain }}" product="{{ product.id }}"></div>
+
+
+
+{{product.metafields.shogun.below}}
+

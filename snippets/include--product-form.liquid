@@ -1,0 +1,41 @@
+{% assign sold_out = true %}
+{% if product.available  %}
+  {% assign sold_out = false %}
+{% endif %}
+{% assign variantCount = product.options | size %}
+
+{% form 'product', product, data-productid: product.id, class: 'product-detail__form', novalidate: 'novalidate', data-product-form: '' %}
+<!-- Begin ReCharge code -->
+  <div class="cs-recharge" style="display: none">
+  {% if product.available %}{% include 'subscription-product' %}{% endif %}
+  </div>
+  <!-- End ReCharge code -->
+  <input data-productid="{{ product.id }}" data-variant-id type="radio" name="id" value="{{ product.selected_or_first_available_variant.id }}" id="variant_id" checked="checked" class="this-variant-id" style="display: none;">
+
+  <div class="product-detail__group{% if variantCount == 1 %} product-detail-first{% endif %}">
+    {% unless product.has_only_default_variant %}
+      {% if variantCount >= 1 %} 
+          <div id="product-detail__variant"></div>
+      {% endif %}
+    {% endunless %}
+    
+    <div class="product-detail__qty-group" {% if variantCount == 1 %}style="position: static;"{% endif %}>
+      <div class="product-detail__minus product-detail__qty-icon" data-qty-minus>–</div>
+      <input data-number name="quantity" type="number" min="1" class="product-detail__qty-input" value="1" pattern="[0-9]*">
+      <div class="product-detail__plus product-detail__qty-icon" data-qty-plus>+</div>
+    </div>
+  </div>
+
+  <div class="product-detail__action">
+    {% if sold_out %}
+      <a class="btn product-detail__btn btn-disabled" disabled="disabled">
+        <span data-btn-text>Sold out</span>
+      </a>
+    {% else %}
+      <a type="submit" data-add-to-cart class="btn product-detail__btn btn--black btn-add-to-cart" href="#" data-unit-type="{{ shipping_interval_unit_type }}" data-frequency="{{ shipping_interval_frequency }}">
+        <span class="quick-add__text" data-btn-text>Add to bag</span>
+        <div class="icon-loader"></div>
+      </a>
+    {% endif %}
+  </div>
+{% endform %}

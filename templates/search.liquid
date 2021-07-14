@@ -1,0 +1,84 @@
+{% assign variety = false %}
+{% assign country = false %}
+{% assign region = false %}
+{% assign vintage = false %}
+{% assign style = false %}
+{% assign match = false %}
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+{% for tag in product.tags %}
+  {% assign currentTag = tag | downcase %}
+
+
+
+  {% if variety == false and currentTag contains 'variety-' %}
+    {% assign variety = tag | remove: 'variety-' | replace: '-', ' ' | replace: '/', ', ' %}
+  {% endif %}
+
+  {% if country == false and  currentTag contains 'country-' %}
+    {% assign country = tag | remove: 'country-' | replace: '-', ' ' | replace: '/', ', ' %}
+  {% endif %}
+
+  {% if region == false and  currentTag contains 'region-' %}
+    {% assign region = tag | remove: 'region-' | replace: '-', ' ' | replace: '/', ', ' %}
+  {% endif %}
+
+  {% if vintage == false and currentTag contains 'vintage-' %}
+    {% assign vintage = tag | remove: 'vintage-' | replace: '-', ' ' | replace: '/', ', ' %}
+  {% endif %}
+
+  {% if style == false and currentTag contains 'style-' %}
+    {% assign style = tag | remove: 'style-' | replace: '-', ' ' | replace: '/', ', ' %}
+  {% endif %}
+
+
+
+
+  {% if match == false and currentTag contains 'match-' %}
+    {% assign match = tag | remove: 'match-' | replace: '-', ' ' | replace: '/', ', ' %}
+  {% endif %}
+
+{% endfor %}
+
+<div class="row page-title">
+	<div class="small-12 column">
+		<h1>Search</h1>
+	</div>
+</div>
+<div class="row search-form collapse-all">
+		<form action="/search" method="get">
+                <div class="small-8 large-10 columns">
+                    <input type="text" name="q" placeholder="">
+                    <input type="hidden" name="type" value="product">
+                </div>
+                <div class="small-4 large-2 columns">
+                    <button class="button-black-icon-arrow button-full">Search</button>
+                </div>
+        </form>
+</div>
+
+{% if search.performed %}
+{% paginate search.results by 52 %}
+<div class="row page-title">   
+	   <div class="small-12 column">
+	      
+		    {% if search.results_count == 0 %}  
+         <p>Sorry! We couldn't find anything with "{{ search.terms }}" in our shop.</p>              
+		    {% else %}
+				<ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-4 xlarge-block-grid-6 product-grid" data-equalizer>
+					{% for item in search.results %} 
+						{% include 'product' with item %}
+
+					{% endfor %}
+                  
+
+                  
+				</ul>
+
+		    {% endif %}   
+	    </div> 
+	    
+</div>
+ {% include 'pagination' %}	
+    {% endpaginate %}   
+{% endif %}  

@@ -1,0 +1,50 @@
+<div class="row">
+	<div class="small-12 medium-8 medium-push-4 columns heading-copy">
+		{{ section.settings.heading_copy }}
+	</div>
+	<div class="small-12 medium-4 medium-pull-8 columns contacts">
+		{{ section.settings.contacts }}
+	</div>
+	
+</div>
+<div class="row">
+	<div class="small-12 medium-4  columns legal">
+		{{ section.settings.legal }}
+	</div>
+	<div class="small-12 medium-8 columns copy">
+		{{ section.settings.copy }}
+	</div>
+</div>
+
+{% schema %}
+{
+"name": "About Us",
+"settings": [
+	{
+	   "type": "richtext",
+	   "id": "contacts",
+	   "label": "Contact Block",
+	   "default": "<p>Contacts</p>"
+	},
+	{
+	   "type": "richtext",
+	   "id": "heading_copy",
+	   "label": "Heading Copy",
+	   "default": "<p>Heading Copy</p>"
+	},
+	{
+	   "type": "richtext",
+	   "id": "legal",
+	   "label": "Legal",
+	   "default": "<p>Legal</p>"
+	},
+	{
+	   "type": "richtext",
+	   "id": "copy",
+	   "label": "Copy",
+	   "default": "<p>Copy</p>"
+	}
+]
+}
+
+{% endschema %}

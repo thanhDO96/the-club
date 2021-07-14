@@ -1,0 +1,27 @@
+</div><!-- content -->
+<footer class="fullwidth">
+	<div id="footer-bar" class="row" data-equalizer>
+		<div class="small-6 medium-6 columns navigation" data-equalizer-watch>
+			{% if linklists.footer-menu-v2.links.size > 0 %}
+	            <ul>
+	                {% for link in linklists.footer-menu-v2.links %}
+	                    <li><a href="{{ link.url }}" title="{{ link.title | strip_html }}">{{ link.title }}</a></li>
+	                {% endfor %}
+                  <li class="show-for-large-up"><a href="{{ settings.instagram_url }}"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+				  <li class="show-for-large-up"><a href="{{ settings.facebook_url }}"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+				  <li class="show-for-large-up"><a href="{{ settings.twitter_url }}"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                    <p style="font-size:14px;"><i>It is against the law to sell or supply alcohol to, or to obtain alcohol on behalf of a person under the age of 18 years.</i></p>
+                  <p style="font-size:14px;"><i>We acknowledge the Gadigal people of the Eora Nation, the traditional custodians of this land on which we live and work and pay our respects to the Elders past, present and emerging.<br>We Pay The Rent - 1% of our monthly rent is paid to Aboriginal Legal Service NSW/ACT.</i></p>
+          </ul>
+	        {% endif %}
+		</div>
+		<!--<div class="small-6 medium-6 columns social"  data-equalizer-watch>
+			<ul>
+				<li><a href="{{ settings.instagram_url }}"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+				<li><a href="{{ settings.facebook_url }}"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+				<li><a href="{{ settings.twitter_url }}"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+			</ul>
+		</div>-->
+	</div>
+</footer>
+</div><!-- wrapper -->

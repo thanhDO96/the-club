@@ -1,0 +1,24 @@
+<div class="sort-by small-12 medium-12">
+  <label class="left" for="sort-by">Sort by:&nbsp;&nbsp;</label> 
+  <select class="left small-5" id="sort-by">
+     <option value="created-descending">Newest to Oldest</option>
+    <option value="price-ascending">Price: Low to High</option>
+    <option value="price-descending">Price: High to Low</option>
+    <option value="title-ascending">A-Z</option>
+    <option value="created-ascending">Oldest to Newest</option>
+   
+  </select>
+</div>
+<script>
+document.querySelector('#sort-by').addEventListener('change', function() {
+  const urlSearchParams = new URLSearchParams(
+    window.location.search.indexOf("sort_by") > -1
+    ? window.location.search.replace(/sort_by/gi,"")
+    : window.location.search
+  );
+
+  urlSearchParams.set(this.name, this.value);
+
+  window.location = `?sort_by${urlSearchParams}`;
+});
+</script>

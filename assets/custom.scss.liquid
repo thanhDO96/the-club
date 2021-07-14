@@ -1,0 +1,326 @@
+header #navigation-bar .branding a img {max-width: 120px;}
+
+header #navigation-bar .navigation nav>ul {
+  display:-webkit-flex;
+  display:flex;
+  align-items:center;
+  
+  li.search-nav {
+
+    .search-label {
+      position:relative;
+      min-height:18px;
+      min-width:100px;
+    }
+
+    .search-label span {
+      display:block;
+      cursor:pointer;
+    }
+
+    form {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+      transform: translateY(-50%);
+      min-width: 0;
+      width:0;
+      opacity:0;
+      transition:all 0.2s linear 0s;
+    }
+  }
+  
+  li.search-nav.active-search {
+    span {display:none;}
+    form {
+      min-width:180px;
+      width:100%;
+      opacity:1;
+    }
+  }
+}
+.search-wrap {
+  display: flex;
+  display:-webkit-flex;
+  align-items:center;
+  justify-content:space-between;
+  border-width: 1px;
+  border-style: solid;
+  padding:0 .5rem; 
+  
+  input {
+    background-color:transparent !important;
+    border:none !important;
+    box-shadow:none !important;
+    margin:0;
+    padding:0;
+    
+    &:focus {
+      outline:0;
+    }
+  }
+  .search-button {
+    background-color:transparent;
+    border:none;
+    margin:0;
+    padding:0; 
+    
+    &:focus {
+      outline:0;
+    }
+    
+    svg {
+      height:22px;
+      width:22px;
+    }
+  }
+}
+
+
+.search-wrap {
+  border-color:#fff;
+  
+  input {color:#fff;}
+  
+  svg {fill:#fff;}
+}
+header #navigation-bar .navigation nav>ul li.search-nav .search-label span {color:#fff;}
+
+
+.index .search-wrap {
+  border-color:#000046;
+  
+  input {color:#000;}
+  
+  svg {fill:#000046;}
+}
+
+.index header #navigation-bar .navigation nav>ul li.search-nav .search-label span {color:#000;}
+
+.shipping-message {
+  margin:0 0 12px;
+  
+  p {
+    margin:0 0 5px !important;
+    padding:0 !important;
+    
+    em {
+      font-size:smaller;
+      color:#666;
+    }
+  }
+}
+div#recommendify-similar-products {
+  padding: 30px 0;
+
+  .recommendify_panel_heading {
+    font-family: "AGBE Medium";
+    font-size: 2rem;
+    letter-spacing: .05em;
+    line-height: 1.5em;
+    text-align: center;
+    margin: 0;
+    text-align:center;
+  }
+  
+  .recommendify-panel-body {
+    width: 100%;
+    max-width: 90rem;
+    margin: 0 auto;
+    padding-left: .9375rem;
+    padding-right: .9375rem;
+  }
+  
+  .recommendify_product_title p {margin:0;}
+  .recommendify_product_price {font-family: "AGBE Medium";}
+  .recommendify_col {
+    border:solid 1px transparent;
+    -webkit-transition:all 0.2s linear 0s;
+    transition:all 0.2s linear 0s;
+    
+    &:hover {border-color:#dfdfdf;}
+  }
+}
+    
+.error-message {
+  color:#000 !important;
+  border-color:#000 !important;
+  font-weight:400 !important;
+}
+
+.cart-note {
+  margin: 30px 0 0;
+  @media (min-width:1025px) {
+    max-width:300px;
+  }
+  
+  textarea {margin-top: 10px;}
+}
+
+/*
+header #navigation-bar .navigation #mobile-menu-open  {
+  display: inline-block;
+}
+#mobile-menu .menu-wrap {
+  @media (min-width:1025px) {
+    width:50%;
+  }
+}
+
+#mobile-menu .menu-wrap {
+  display:-webkit-flex;
+  display:flex;
+  align-items:center;
+  
+  span {
+    color: #fff;
+  }
+  nav#mobile {
+    width: 25%;
+  }
+  
+  li.search-nav {
+    
+    .search-label {
+      position:relative;
+      min-height:18px;
+      min-width:100px;
+    }
+
+    .search-label span {
+      display:block;
+      cursor:pointer;
+    }
+
+    form {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+      transform: translateY(-50%);
+      min-width: 0;
+      width:0;
+      opacity:0;
+      transition:all 0.2s linear 0s;
+    }
+  }
+  
+  li.search-nav.active-search {
+    span {display:none;}
+    form {
+      min-width:180px;
+      width:100%;
+      opacity:1;
+    }
+  }
+}
+*/
+
+.sort-by {
+  //padding-top: 2rem;
+  display: block;
+  select {
+   display: inline-block; 
+    background-color: transparent;
+    
+  }
+  label {
+    display: inline-block; 
+    height: 2.3125rem;
+    line-height: 2.3125rem;
+    text-align: left;
+  }
+ 
+}
+.feature-block-large {
+ 	height: 100vh;
+       .column {
+          height: 100vh;
+        }
+}
+
+.index #content .feature-block-copy-3-up  {
+    // background-color: red;
+}
+  
+
+// subscription
+.subscription {
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+// Page subscription 
+.page-subscriptions {
+    background-color: white;
+}
+.subscription {
+    margin: 60px auto;
+    max-width: 1440px;
+    .container-subscription {
+      display: flex;
+      justify-content: space-between;
+      .content-left {
+          width: 48%;
+      }
+      .content-right {
+          width: 48%;
+          .page__title {
+            &:after {
+              display: none;
+            }
+          }
+          p {
+            text-align: left;
+          }
+        
+          h1 {
+              font-size: 2.75rem;
+              color: black;
+              margin-bottom: 50px;
+          }
+
+          .subscription-step__line {
+              display: none;
+          }
+          
+          .d-grid {
+              display:flex;
+          }
+          .subscription-step__item {
+              border: 1px solid black;
+              padding: 10px 0 10px 0;
+              margin: 30px 0;
+              min-width: 150px;
+              text-align: center;
+              line-height: normal;
+              &.selected {
+                background: #f2f2f2;
+              }
+
+              &:first-child {
+                  border-right: 0;
+              }
+          }
+
+          .subscription__desc {
+              max-width: 80%;
+          }
+
+          .subscription-step__header {
+              font-size: 22px;
+          }
+
+          .subscription__action {
+              display: flex;
+              justify-content: space-between;
+              max-width: 70%;
+              margin-top: 50px;
+              .product #content .product-wrap {
+                  padding: 0;
+              }
+          }
+      }
+    }
+}

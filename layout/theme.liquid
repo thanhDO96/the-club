@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en">
+    <head>
+      <meta name="facebook-domain-verification" content="wnsr1cw2o2wjr4me5z5fhrkshxa8vo" />
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      	<!-- Facebook / OpenGraph -->
+        <meta property="og:title" content="DRNKS.COM">
+        <meta property="og:url" content="http://drnks.com">
+        <meta property="og:image" content="https://cdn.shopify.com/s/files/1/0249/0190/files/social.jpg?v=1575966697">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        <meta property="og:description" content="Natural wine heaven ❤️">
+
+
+        <title>{% if template == 'index' %} {% else %}{{ shop.name }} | {% endif %}{{ page_title }}</title>
+
+        {{ 'main.scss' | asset_url | stylesheet_tag }}
+        {{ 'custom.scss.css' | asset_url | stylesheet_tag }}
+        <script src="{{ 'theme.min.js' | asset_url }}" defer="defer"></script>
+        {{ 'modernizr.js' | asset_url | script_tag }}
+        {{ "shopify_common.js" | shopify_asset_url | script_tag }}
+		{{ "customer_area.js"  | shopify_asset_url | script_tag }}
+        {{ 'option_selection.js' | shopify_asset_url | script_tag }}
+
+        <link rel="canonical" href="{{ canonical_url }}">
+        <link rel="shortcut icon" href="{{ 'drnks-fav.png' | asset_url }}" type="image/png" />
+
+        {{ content_for_header }}
+
+{% include 'booster-common' %}
+
+  {% render 'shogun-head' %}
+  {%- render 'bold-subscription-widget' -%}
+</head>
+
+    <body class="{{ template | replace: '.', ' ' | replace: ' ', '-' }} {% if template == '404' %}the-404{% endif %} antialiased" id="{{ page_title | handle }}"><div style="display:none;" id="af_hidepp_btn"><div class="additional-checkout-buttons">{{ content_for_additional_checkout_buttons }}</div></div>
+		{% include 'header' %}
+            {{ content_for_layout }}
+		{% include 'footer' %}
+        {{ 'main.js' | asset_url | script_tag }}
+        {{ 'rivets-cart.min.js' | asset_url | script_tag }}
+        <script type="text/javascript">
+          CartJS.init({{ cart | json }}, {
+            rivetsModels: {
+              "product": {{ product | json }}
+            }
+          });
+        </script>
+        {{ 'custom.js' | asset_url | script_tag }}
+      
+        <script>
+            $(document).foundation();
+        </script>
+        <script>
+          var theme = {
+            moneyFormat: {{ shop.money_format | json }}
+          }
+  		</script>
+    <script src="https://zooomyapps.com/age/ZooomyAgeVerify.js" data-shop="drnks.myshopify.com"></script>
+{% render 'preorder-now' %}
+  </body>
+</html>
+{% if template == 'cart' %}{% include 'hidepaypal' %}{% endif %}
+

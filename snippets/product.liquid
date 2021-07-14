@@ -1,0 +1,81 @@
+{% assign variety = false %}
+{% assign country = false %}
+{% assign region = false %}
+{% assign vintage = false %}
+{% assign style = false %}
+{% assign match = false %}
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+{% for tag in product.tags %}
+  {% assign currentTag = tag | downcase %}
+
+
+
+  {% if variety == false and currentTag contains 'variety-' %}
+    {% assign variety = tag | remove: 'variety-' | replace: '-', ' ' | replace: '/', ', ' %}
+  {% endif %}
+
+  {% if country == false and  currentTag contains 'country-' %}
+    {% assign country = tag | remove: 'country-' | replace: '-', ' ' | replace: '/', ', ' %}
+  {% endif %}
+
+  {% if region == false and  currentTag contains 'region-' %}
+    {% assign region = tag | remove: 'region-' | replace: '-', ' ' | replace: '/', ', ' %}
+  {% endif %}
+
+  {% if vintage == false and currentTag contains 'vintage-' %}
+    {% assign vintage = tag | remove: 'vintage-' | replace: '-', ' ' | replace: '/', ', ' %}
+  {% endif %}
+
+  {% if style == false and currentTag contains 'style-' %}
+    {% assign style = tag | remove: 'style-' | replace: '-', ' ' | replace: '/', ', ' %}
+  {% endif %}
+
+  {% if match == false and currentTag contains 'match-' %}
+    {% assign match = tag | remove: 'match-' | replace: '-', ' ' | replace: '/', ', ' %}
+  {% endif %}
+
+{% endfor %}
+
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+<li>
+	<a class="product-image" href="{{product.url}}"{% unless product.available %}style="opacity:0.4;"{%- endunless -%}
+>
+		
+		{% if product.tags contains 'magnum' %}<span class="feature-tag">{{ 'mag.png' | asset_url | img_tag }}</span>{% endif %}
+      
+      		{% if product.tags contains 'featured-noadds' %}<span class="feature-tag">{{ 'noadds.png' | asset_url | img_tag }}</span>{% endif %}
+      
+            		{% if product.tags contains 'featured-nos02' %}<span class="feature-tag">{{ 'nos02.png' | asset_url | img_tag }}</span>{% endif %}
+
+                  		{% if product.tags contains 'pronto' %}<span class="feature-tag">{{ 'pronto.png' | asset_url | img_tag }}</span>{% endif %}
+
+      
+      {{ product.featured_image | product_img_url: 'large' | img_tag }}	
+	</a>
+	<a class="product-title" href="{{product.url}}"{% unless product.available %}style="opacity:0.4;"{%- endunless -%}><h4>{{ product.title | truncatewords:5 }}</h4></a>
+	
+  <p class="product-price"{% unless product.available %}style="opacity:0.4;"{%- endunless -%}>
+		{% if product.compare_at_price > 0 %}<del>{{ product.compare_at_price | money }}</del> {% endif %}
+		{{ amount_no_decimals }} {{ product.price_max | money_without_trailing_zeros }}
+</p>
+  
+
+	
+	{% unless template == "product" %}
+	<div class="form-wrap">
+		<form action="/cart/add" method="post">
+          <div class="js-product-content">
+		  <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+
+            {% unless current_variant.available %}
+            <button class="button-black-icon" type="button" disabled>Out of stock</button>
+            {% else %}
+		  	<button type="submit" id="AddToCart" class="button-black-icon-arrow">Add to cart</button>
+            {% endunless %}
+          </div>
+		</form> 
+	</div>
+	{% endunless %}
+</li>

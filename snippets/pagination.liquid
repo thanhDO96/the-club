@@ -1,0 +1,21 @@
+{% if paginate.pages > 1 %}
+<div class="row pagination-wrap">
+	<div class="small-12 column text-center">
+		<ul class="custom-pagination">
+			<li class="previous-link">{{ '<i class="fa fa-long-arrow-left" aria-hidden="true"></i> Previous' | link_to: paginate.previous.url }}</li>
+			{% for part in paginate.parts %}
+				
+				{% if part.is_link %}
+					<li>{{ part.title | link_to: part.url }}</li>
+				{% elsif part.title == '&hellip;' %}
+					<li class="unavailable">…</li>
+				{% else %}
+					<li class="current">{{ part.title | link_to: part.url }}</li>
+				{% endif %}
+				
+			{% endfor %}
+			<li class="next-link arrow{% unless paginate.next %}{% endunless %}">{{ 'Next <i class="fa fa-long-arrow-right" aria-hidden="true"></i>' | link_to: paginate.next.url }}</li>
+		</ul>
+	</div>
+</div>
+{% endif %}

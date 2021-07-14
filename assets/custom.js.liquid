@@ -1,0 +1,47 @@
+jQuery(function($){
+  //ajax cart add with error message for insufficient inventory quantity
+  $('form[action="/cart/add"]').on('submit', function(e){
+              var $addToCartForm, dataArray, id, properties, quantity, $cartPopupSelector;
+              e.preventDefault();
+              $addToCartForm = $(this);
+              $cartPopupSelector = $('#qc');
+              dataArray = $addToCartForm.serializeArray(e);
+              id = void 0;
+              quantity = void 0;
+              properties = {};
+              $.each(dataArray, function(i, item) {
+                if (item.name === 'id') {
+                  return id = item.value;
+                } else if (item.name === 'quantity') {
+                  return quantity = item.value;
+                } else if (item.name.match(/^properties\[[\w ]+\]$/)) {
+                  return properties[item.name] = item.value;
+                }
+              });
+              CartJS.addItem(id, quantity, properties, {
+
+                    // Define a success callback to display a success message.
+                    "success": function(data, textStatus, jqXHR) {              
+                        console.log('Successfully added to cart.');                      
+                        setTimeout(function() { $cartPopupSelector.addClass('qc2 hide-for-small-only'); }, 1000);                          
+                        setTimeout(function() { $cartPopupSelector.removeClass('qc2 hide-for-small-only'); }, 10000);
+                    },
+
+                    // Define an error callback to display an error message.
+                    "error": function(jqXHR, textStatus, errorThrown) { 
+                      if($addToCartForm.find('.error-message').length == 0){
+                      	$addToCartForm.find('.js-product-content').append('<p class="error-message" style="color:#ff0000;border:1px solid #ff0000;padding:5px;text-align:center;">'+jqXHR.responseJSON.description+'</p>');
+                        $addToCartForm.find('button[type="submit"]').prop('disabled', true);
+                        setTimeout(function(){ $addToCartForm.find('.error-message').remove(); $addToCartForm.find('button[type="submit"]').prop('disabled', false); }, 3000);
+                      }                      
+                    }
+              });              
+          });
+  
+  
+  $(".search-nav").hover(function () {
+    $(this).toggleClass("active-search");
+  });
+  
+  
+});

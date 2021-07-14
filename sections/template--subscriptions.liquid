@@ -1,0 +1,354 @@
+<div class="subscription" data-gift="false">
+    <div class="container-subscription">
+      <div class="content-left">
+          {% assign image = section.settings.image %}
+          {% if image != blank %}
+            <div class="page-column-picture">
+              <img class="subscription__image page-column-image lazyload" src="{{ image | img_url: '650x' }}" data-src="{{ image | img_url: '800x' }}">
+            </div>
+          {% endif %}
+      </div>
+
+      <div class="content-right">
+            <h1 class="page__title">
+              {{ page.title }}
+            </h1>
+
+         
+
+          <div class="subscription__content" data-max="6">
+            <!-- Step 1 -->
+            <div class="subscription-step subscription-column hide" id="step-1" data-step="1">
+              <div class="subscription-step__header">{{ section.settings.title_step_1 }}</div>
+              <div class="subscription-step__content">
+                <div class="d-grid subscription-column__col-4">
+                  {% for block in section.blocks %}
+                    {% if block.settings.title != blank %}
+                      <a class="subscription-step__item js-scroll-step js-tab-title" href="#step-1" data-tab="tab-{{ forloop.index }}">
+                        <div class="subscription-step__title js-subscription-title">{{ block.settings.title }}</div>
+                        {% if block.settings.desc != blank %}
+                          <div class="subscription-step__desc">
+                            <!-- <div class="subscription-step__line">-</div> -->
+                            {{ block.settings.desc }}
+                          </div>
+                        {% endif %}
+                      </a>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+            <!-- End Step 1 -->
+      
+            <!-- Step 2 -->
+            <div class="subscription-step subscription-column hide" id="step-2" data-step="2">
+              <div class="subscription-step__header">{{ section.settings.title_step_2 }}</div>
+              <div class="subscription-step__content">
+                {% for block in section.blocks %}
+                  {% if block.settings.product_1 != blank or block.settings.product_2 != blank %}
+                    <div class="d-grid subscription-column__col-2 js-tab-content" id="tab-{{ forloop.index }}" style="display: none;">
+                      {%- for i in (1..2) -%}
+                        {% capture cap_product %}product_{{i}}{% endcapture %}
+                        {% capture cap_title %}title_{{i}}{% endcapture %}
+                        {% capture cap_desc %}desc_{{i}}{% endcapture %}
+                        {%- assign block_product = block.settings[cap_product] -%}
+                        {%- assign title = block.settings[cap_title] -%}
+                        {%- assign desc = block.settings[cap_desc] -%}
+                        {%- assign product = all_products[block_product] -%}
+                        {%- assign subscription_id = product.metafields.accentuate.subscription_id -%}
+                        {%- assign shipping_interval_unit_type = product.metafields.accentuate.shipping_interval_unit_type -%}
+                        {%- assign shipping_interval_frequency = product.metafields.accentuate.shipping_interval_frequency -%}
+                        {%- assign deliverie = product.title | split: '(' | last -%}
+      
+                        {% if block_product != blank %}
+                          <a class="subscription-step__item js-product-item js-scroll-step" href="#step-2" data-deliverie="{% if product.title contains '(' %}({{deliverie}}{% endif %}" data-handle="{{ product.handle }}" data-subscription-id="{{ subscription_id }}" data-shipping-interval-unit-type="{{ shipping_interval_unit_type }}" data-shipping-interval-frequency="{{ shipping_interval_frequency }}">
+                            <div class="subscription-step__title">
+                              {% if title != blank %}
+                                <span class="subscription-step__title-text js-product-title">{{ title }}</span>
+                              {% else %}
+                                <span class="subscription-step__title-text js-product-title">{{ product.title }}</span>
+                              {% endif %}
+                              {% if desc != blank %}
+                                <span class="subscription-step__hint"> {{ desc }} </span>
+                              {% endif %}
+                            </div>
+                          </a>
+                        {% endif %}
+                      {%- endfor -%}
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+            <!-- End Step 2 -->
+      
+            <!-- Step 3 -->
+            <div class="subscription-step subscription-column js-next-step hide" id="step-3" data-step="3">
+              <div class="subscription-step__header">
+                {{ section.settings.title_step_3 }}
+              </div>
+              <div class="subscription-step__content js-option-index" data-option-index="0">
+                <div class="d-grid js-product-variants subscription-column__col-4">
+
+
+                </div>
+              </div>
+            </div>
+            <!-- End Step 3 -->
+      
+            <!-- Step 4 -->
+            <div class="subscription-step subscription-column js-next-step hide" id="step-4" data-step="4">
+              <div class="subscription-step__header">{{ section.settings.title_step_4 }}</div>
+      
+              <div class="subscription-step__content js-option-index" data-option-index="1">
+                <div class="d-grid subscription-column__col-2 js-roast"></div>
+              </div>
+            </div>
+            <!-- End Step 4 -->
+      
+            <!-- Step 5 -->
+            <div class="subscription-step subscription-column js-next-step hide" id="step-5" data-step="5">
+              <div class="subscription-step__header">{{ section.settings.title_step_5 }}</div>
+              <div class="subscription-step__content js-option-index" data-option-index="2" >
+                <div class="subscription-step__item subscription-step__option selected">
+                  <div class="subscription-step__label js-subscription-label" data-grind-type="Whole Beans">
+                    <label class="subscription-step__label-text js-reset-label">Select options</label>
+                    <ul class="subscription-step-dropdown" data-option-dropdown></ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- End Step 5 -->
+      
+            <div class="subscription-step subscription-custom js-next-step hide" id="step-6" data-step="6">
+              <!-- <div class="subscription-column">
+                <div class="subscription-step__header">
+                  {{ section.settings.title_step_6 }}
+                </div>
+                <div class="subscription-step__content">
+                  <div class="subscription-step__item subscription-step__complete">
+                    <ul class="subscription-step__list">
+                      <li class="subscription-step__list-item">
+                        <span class="js-recharge-title"></span>
+                        <span class="subscription-step__list-item__text js-reocuccr-pay" style="display: none">(reoccuring payment)</span>
+                      </li>
+                      <li class="subscription-step__list-item">
+                        Ships <span class="js-delivered" style="text-transform: lowercase;"></span>
+                        <span class="js-text-delivery"></span>
+                      </li>
+                      <li class="subscription-step__list-item">
+                        <span class="js-option-title"></span> of coffee
+                      </li>
+                      <li class="subscription-step__list-item">
+                        <span class="js-coffee-text"></span>
+                      </li>
+                      <li class="subscription-step__list-item">
+                        <span class="js-recharge-label-text"></span>
+                      </li>
+                      {% if section.settings.show_delivery %}
+                        <li class="subscription-step__list-item">
+                          {{ section.settings.delivery_text }}  <span class="js-first-delivery"> {{ shop.metafields.customApp.deliveryDate }} </span>
+                        </li>
+                      {% endif %}
+                    </ul>
+                  </div>
+                </div>
+              </div> -->
+      
+              
+            </div>
+            <div class="js-select-options hide"></div>
+          </div>
+
+          {% if section.settings.desc != blank %}
+          <div class="subscription__desc">
+            {{ section.settings.desc }}
+          </div>
+        {% endif %}
+
+          <div class="subscription__action">
+                <!-- <div class="subscription__total">
+                  <div class="subscription__total-text">Total</div>
+                  <div class="subscription__total-price" data-subscription-total>0</div>
+                  <div class="subscription__total-text"> per delivery</div>
+                </div> -->
+                <div class="product">
+                    <div id="content">
+                        <div class="product-wrap">
+                            <div class="product-content">
+                              <div class="quantity-selector">
+                                <a href="#" class="qty-down">-</a>
+                                <input min="1" type="number" id="quantity" name="quantity" value="1" />
+                                <a href="#" class="qty-up">+</a>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              
+                <button class="button-black-icon-arrow" data-subscription-add data-gift="false">
+                  <span>Add to cart</span>
+                </button>
+              </div>
+
+          {% if section.settings.show_bottom_text %}
+          <div class="subscription-bottom">
+            <div class="container">
+              <a href="javascript:void(0)" class="subscription-bottom__close" title="close">
+              </a>
+              <!-- <div class="subscription-bottom__text">
+                {{ section.settings.bottom_text }}
+              </div> -->
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <style>
+    .subscription-bottom {
+      background-color: {{ section.settings.bg_bottom }};
+      color: {{ section.settings.color_bottom }};
+    }
+  
+    .subscription-bottom a,
+    .subscription-bottom p {
+      color: {{ section.settings.color_bottom }};
+    }
+  </style>
+  
+  <script>
+    var subscription = {
+      size_250g: '{{ section.settings.step_3_desc_1 }}',
+      size_500g: '{{ section.settings.step_3_desc_2 }}',
+      size_750g: '{{ section.settings.step_3_desc_3 }}',
+      size_1kg: '{{ section.settings.step_3_desc_4 }}',
+      roast_img_1: '{{ section.settings.img_1_step_4 | img_url: "250x" }}',
+      roast_img_2: '{{ section.settings.img_2_step_4 | img_url: "250x" }}',
+      roast_desc_1: '{{ section.settings.desc_1_step_4 }}',
+      roast_desc_2: '{{ section.settings.desc_2_step_4 }}'
+    }
+  </script>
+  {% schema %}
+    {
+      "name": "Subscription page",
+      "max_blocks": 4,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Select Image"
+        },
+        {
+          "type": "richtext",
+          "id": "desc",
+          "label": "Description",
+          "default": "<p>Fresh roasted Market Lane Coffee, delivered to your door just the way you like it.</p>"
+        },
+        {
+          "type": "header",
+          "content": "Step 1"
+        },
+        {
+          "type": "text",
+          "id": "title_step_1",
+          "label": "Heading step 1",
+          "default": "1. Choose your subscription"
+        },
+        {
+          "type": "header",
+          "content": "How many"
+        },
+        {
+          "type": "text",
+          "id": "title_step_3",
+          "label": "Heading",
+          "default": "How many bottles"
+        },
+        {
+          "type": "textarea",
+          "id": "step_3_desc_1",
+          "label": "Description for 6 bottles",
+          "default": "Description for bottles"
+        },
+        {
+          "type": "textarea",
+          "id": "step_3_desc_2",
+          "label": "Description for 12 bottles",
+          "default": "Description for bottles"
+        }
+       /*{
+          "type": "textarea",
+          "id": "step_3_desc_3",
+          "label": "Description for 750g",
+          "default": "About a 2 week supply of coffee for 3-4 people."
+        },
+        {
+          "type": "textarea",
+          "id": "step_3_desc_4",
+          "label": "Description for 1kg",
+          "default": "About a 2 week supply of coffee for 4-5 people."
+        }*/
+      ],
+      "blocks": [
+        {
+          "type": "product",
+          "name": "Product",
+          "settings": [
+            {
+              "type": "text",
+              "id": "title",
+              "label": "Header",
+              "default": "Ongoing subscription"
+            },
+            /*{
+              "type": "richtext",
+              "id": "desc",
+              "label": "Description"
+            },*/
+            {
+              "type": "header",
+              "content": "Product Subscribe 1"
+            },
+            {
+              "type": "product",
+              "id": "product_1",
+              "label": "Select Product Subscribe 1"
+            },
+            /*{
+              "type": "text",
+              "id": "title_1",
+              "label": "Use for product name",
+              "default": "Monthly deliveries"
+            },
+            /*{
+              "type": "textarea",
+              "id": "desc_1",
+              "label": "Description",
+              "default": "Most popular"
+            },*/
+            {
+              "type": "header",
+              "content": "Product Subscribe 2"
+            },
+            {
+              "type": "product",
+              "id": "product_2",
+              "label": "Select Product Subscribe 2"
+            }
+            /*{
+              "type": "text",
+              "id": "title_2",
+              "label": "Use for product name",
+              "default": "Fortnightly deliveries"
+            },
+            {
+              "type": "textarea",
+              "id": "desc_2",
+              "label": "Description"
+            }*/
+          ]
+        }
+      ]
+    }
+  {% endschema %}

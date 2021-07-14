@@ -1,0 +1,93 @@
+<script type="text/javascript">
+  //BOOSTER APPS COMMON JS CODE
+  window.BoosterApps = window.BoosterApps || {};
+  window.BoosterApps.common = window.BoosterApps.common || {};
+  window.BoosterApps.common.shop = {
+    permanent_domain: '{{ shop.permanent_domain }}',
+    currency: {{ shop.currency | json }},
+    money_format: {{ shop.money_format | json }},
+    id: 2490190
+  };
+  {% if customer %}
+  window.BoosterApps.common.customer = {
+    id: {{ customer.id | json }},
+    tags: {{ customer.tags | json }},
+    email: {{customer.email | json}},
+    accepts_marketing: {{ customer.accepts_marketing | json }},
+    first_name: {{ customer.first_name | json }},
+    last_name: {{ customer.last_name | json }},
+    orders_count: {{ customer.orders_count | json }},
+    tags: {{ customer.tags | json }},
+    total_spent: {{ customer.total_spent | json }}
+  };
+  {% endif %}
+  window.BoosterApps.common.template = '{{ template | split: "." | first }}';
+  window.BoosterApps.common.cart = {{ cart | json }};
+
+    window.BoosterApps.cs_app_url = "/apps/";
+
+    window.BoosterApps.loy_config = {{shop.metafields.ba_loy.config | json}};
+    window.BoosterApps.loy_config.api_endpoint = "/apps/ba-loy";
+
+  for (i = 0; i < window.localStorage.length; i++) {
+    var key = window.localStorage.key(i);
+    if (key.slice(0,10) === "ba_msg_sub") {
+      window.BoosterApps.can_update_cart = true;
+    }
+  }
+
+  {% if product %}
+    if (window.BoosterApps.common.template == 'product'){
+      window.BoosterApps.common.product = {id: {{product.id}}, price: {{product.price}}, handle: '{{product.handle}}', available: {{product.available}} };
+    }
+  {% endif %}
+</script>
+
+<script type="text/javascript">
+  //Global snippet for Booster Apps
+  //this is updated automatically - do not edit manually.
+
+  function loadScript(src, done) {
+    var js = document.createElement('script');
+    js.src = src;
+    js.onload = function(){done();};
+    js.onerror = function(){
+      done(new Error('Failed to load script ' + src));
+    };
+    document.head.appendChild(js);
+  }
+
+  function browserSupportsAllFeatures() {
+    return window.Promise && window.fetch && window.Symbol;
+  }
+
+  if (browserSupportsAllFeatures()) {
+    console.log('its a modern browser')
+    main();
+  } else {
+    console.log('its a legacy browser');
+    loadScript('https://polyfill.io/v3/polyfill.min.js?features=Promise,fetch', main);
+  }
+
+  function main(err) {
+    //isolate the scope
+
+    //tracking - replace with cdn
+    
+
+    (function() {
+      console.log('running main')
+      //POSS add https://tingle.robinparisi.com/ for modals
+      //Common functions - getCookie etc
+      console.log('logging from common');
+
+      
+
+        window.ba_loy_widget_js  = '{{ 'ba_loy_widget.js' | asset_url }}';
+        window.ba_loy_widget_css = '{{ 'ba_loy_widget.css' | asset_url }}';
+        loadScript('{{ 'ba_loy_init.js' | asset_url }}', function(){});
+
+    })();
+
+  }
+</script>

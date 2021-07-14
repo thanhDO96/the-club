@@ -1,0 +1,49 @@
+{% if collection.image %}
+<div class="row collection-image collapse">
+	<div class="small-12 columns">
+      
+		{{ collection.image | img_url: 'master' | img_tag }} 
+        </div>
+		</div>
+
+{% endif %}
+{% paginate collection.products by 51 %}
+<div class="row">
+    <div class="small-12 columns">
+
+			{% if collection.products.size == 0 %}
+				<p>No products were found in this collection.</p>
+			{% else %}
+					<ul class="product-grid small-block-grid-1 medium-block-grid-2 large-block-grid-4">
+						{% for product in collection.products } limit:3 %}
+							{% if forloop.first %}
+								<li class="title-block">
+									<div class="wrap">
+										<div class="inner-wrap">
+                                          
+                                          <p>{{ collection.description }}</p><br>
+                                          {% include 'sort-by' %}
+										</div>
+									</div>
+								</li>
+							{% endif %}
+							{% include 'product' with product %}
+						{% endfor %}
+					</ul>
+					<hr />
+					{% for product in collection.products } offset: 3 %}
+					{% capture thecycle %}{% cycle '1', '2', '3', '4' %}{% endcapture %}
+					{% if thecycle == '1'  %}<ul class="product-grid small-block-grid-1 medium-block-grid-2 large-block-grid-4">{% endif %}
+						{% include 'product' with product %}
+						{% if thecycle == '4' or forloop.last %}</ul><hr />{% endif %}
+
+					{% endfor %}
+			
+				
+			{% endif %}
+		
+	</div>
+</div>
+
+{% include 'pagination' %}
+{% endpaginate %}

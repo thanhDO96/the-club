@@ -1,0 +1,191 @@
+<div id="wrapper">
+<header>
+	<aside id="mobile-menu">
+		<div class="menu-header">
+			{{ 'drnks-logo-white.svg' | asset_url | img_tag }}
+			<a id="mobile-menu-close" href="#" >{{ 'icon-close.svg' | asset_url | img_tag }}</a>
+		</div>
+		<div class="menu-wrap">
+			<nav id="mobile">
+				<dl class="accordion" data-accordion>
+					{% for link in linklists.main-menu-v2.links %}
+	                {% assign child_list_handle = link.title | handleize %}
+	                {% if linklists[child_list_handle] != blank %}
+
+					  <dd class="accordion-navigation has-dropdown">
+					    <a href="#{{ link.title | downcase | handlelize }}">{{ link.title }}</a>
+					    <div id="{{ link.title | downcase | handleize }}" class="content">
+							<ul class="no-bullet">
+								{% for childlink in linklists[child_list_handle].links %}
+	                                <li{% if childlink.active %} class="active"{% endif %}>
+	                                    <a href="{{ childlink.url }}">{{ childlink.title }}</a>
+	                                </li>
+	                            {% endfor %}
+							</ul>
+					    </div>
+					  </dd>
+					   {% else %}
+		                    <dd class="accordion-navigation">
+		                        <a href="{{ link.url }}">{{ link.title }}</a>
+		                    </dd>
+					{% endif %}
+		            {% endfor %}
+                  <dd class="accordion-navigation">
+                      <a href="/search">Search</a>
+                  </dd>
+                  <dd class="accordion-navigation">
+                  <!--<li class="search-nav">
+                             <div class="search-label">
+                               <span>Search</span>
+                               <form action="/search" method="get">
+                                 <div class="search-wrap">
+                                   <input type="text" name="q" placeholder="Search" value="{{ search.terms | escape }}">
+                                   <input type="hidden" name="type" value="product">
+
+                                   <button class="search-button">
+                                     {% include 'icon-search' %}
+                                   </button>
+                                 </div>
+                               </form>
+                             </div>
+                           </li>
+                    
+                  </dd>-->
+				</dl>
+              
+			</nav>
+		</div>
+	</aside>
+	{% if template == 'index' %}
+	{% if settings.show_promotions_bar %}
+	<div id="promotion-bar" class="fullwidth">
+		<div class="row">
+			<div class="small-12 column">
+				<p>{{ settings.promotions_bar_copy | upcase }}</p>
+			</div>
+		</div>
+	</div>
+	{% endif %}
+	{% endif %}
+	<div id="navigation-bar" class="row collapse" data-equalizer>
+		<div class="small-3 medium-4 large-5 columns navigation"  data-equalizer-watch>
+			
+            <a id="mobile-menu-open" href="#" >{{ 'icon-hamburger.svg' | asset_url | img_tag }}</a>
+          
+            <!--<a id="mobile-menu-open" href="#" ><img src="{{ "icon-hamburger-white.svg" | asset_url }}" class="show-for-large" /> <img src="{{ "icon-hamburger.svg" | asset_url }}" class="hide-for-large" /></a>-->
+         
+          
+			<nav id="desktop" class="show-for-large-up">
+				 <ul>
+		            {% for link in linklists.main-menu-v2.links %}
+		                {% assign child_list_handle = link.title | handleize %}
+		                {% if linklists[child_list_handle] != blank %}
+		                    <li class="{% if link.active %} active {% endif %}has-dropdown">
+		                        <a href="{{ link.url }}">{{ link.title }}</a>
+		                        <div class="dropdown">
+			                        <div class="row">
+				                        <div class="small-12 column">
+				                        	<ul class="medium-block-grid-4 large-block-grid-4">
+					                            {% for childlink in linklists[child_list_handle].links %}
+					                                <li{% if childlink.active %} class="active"{% endif %}>
+					                                    <a href="{{ childlink.url }}">{{ childlink.title }}</a>
+					                                </li>
+					                            {% endfor %}
+					                        </ul>
+				                        </div>
+			                        </div>
+		                        </div>
+		                    </li>
+		                {% else %}
+		                    <li{% if link.active %} class="active"{% endif %}>
+		                        <a href="{{ link.url }}">{{ link.title }}</a>
+		                    </li>
+		                {% endif %}
+		            {% endfor %}
+                   <li class="search-nav">
+                     <div class="search-label">
+                       <span>Search</span>
+                       <form action="/search" method="get">
+                         <div class="search-wrap">
+                           <input type="text" name="q" placeholder="Search" value="{{ search.terms | escape }}">
+                           <input type="hidden" name="type" value="product">
+
+                           <button class="search-button">
+                             {% include 'icon-search' %}
+                           </button>
+                         </div>
+                       </form>
+                     </div>
+                   </li>
+		        </ul>
+			</nav>
+			
+		</div>
+		<div class="small-6 medium-4 large-2 columns branding"  data-equalizer-watch>
+			<a href="{{ shop.url }}"><img src="{{ "drnks-logo.svg" | asset_url }}" class="logo-black" alt="DRNKS" /><img src="{{ "drnks-logo-white.svg" | asset_url }}" class="logo-white" alt="DRNKS" /></a>
+		</div>
+		<div class="small-3 medium-4 large-5 columns customer" data-equalizer-watch >
+			<nav id="desktop">
+				<ul>
+					<li>
+						<a href="/cart" >Cart ( <span class="cart-count" data-cart-render="item_count">{{ cart.item_count }}</span> )</a>
+						<div class="quick-cart" id="qc">	
+                          	<div data-cart-view="data-cart-view">
+							<form action="/cart" method="post" id="cartform" rv-show="cart.item_count | gt 0">
+							{% comment %}<a class="header" href="/cart">View cart <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>{% endcomment %}
+           
+							<div class="items-wrap bg-colour-grey-light">
+									<div class="item" rv-each-item="cart.items">
+										<div class="info-wrap">
+											<a class="product-title" rv-text="item.title" rv-href="item.url"></a>
+											<p class="product-price">                                        
+												<span class="hulkapps-cart-item-line-price" data-key="{{item.key}}">
+                                                  <span rv-html="item.price | money Currency.currentCurrency">{{ item.price }}</span>
+		                                        </span></p>
+                                            <div class="item-update">
+                                              <span rv-text="item.quantity"></span>
+                                              <a class="item-update-up" href="#" rv-data-cart-update="index | plus 1" rv-data-cart-quantity="item.quantity | plus 1"><i class="fa fa-chevron-up" aria-hidden="true"></i></a>
+                                              <a class="item-update-down" href="#" rv-data-cart-update="index | plus 1" rv-data-cart-quantity="item.quantity | minus 1"><i class="fa fa-chevron-down" aria-hidden="true"></i></a>
+                                            </div>
+										</div>
+										<div class="image-wrap">
+                                            <a rv-href="item.url"><img rv-src="item.image | img_url: 'medium'"></a>
+                                      </div>
+									</div>
+                              </div>
+							<p class="promotional-message" rv-show="cart.item_count | gt 5">{{ settings.quick_cart_promotions_copy }}</p>
+                            <p class="promotional-message" rv-show="cart.item_count | lt 6">{{ settings.quick_cart_promotions_copy_below_threshold }}</p>
+							<div class="actions">
+								<div class="totals-wrap">
+                                  <p>Total <small>(inc GST)</small></p>
+									<p>
+										<span class="hulkapps-cart-original-total" >
+                                        	{% comment %}{{ cart.total_price | money }}{% endcomment %}
+                                            <strong data-cart-render="total_price_money_with_currency"></strong>
+                                        </span>
+                                    </p>
+								</div>
+								<p>{{ settings.quick_cart_shipping_message }}</p>
+								<div class="buttons">
+								<button type="submit" class="button-black-icon-arrow button-full" name="cart">Check Out</button>
+								{% comment %}<a class="button-black-outlined-icon-arrow button-full" href="{{ shop.url }}/collections/all">Continue shopping</a>{% endcomment %}
+								</div>
+							</div>
+                              
+							
+							</form>
+                              <div class="cart-empty" rv-show="cart.item_count | lt 1">
+								<p>Your cart is empty.</p>
+							  </div>
+                            </div>
+							
+							
+						</div>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</header>
+<div id="content">
+

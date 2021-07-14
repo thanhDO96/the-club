@@ -1,0 +1,13 @@
+{
+  "shopify": {
+    "checkout": {
+      "delivery_options": {
+        "pick_up": "Pick up",
+        "pick_up_in_two_hours": "Same day pick up between 12pm and 5pm (no Sundays)"
+      },
+      "shipping": {
+        "shipping_method_title": "Shipping Method"
+      }
+    }
+  }
+}

@@ -1,0 +1,99 @@
+<div class="row page-title">
+	<div class="small-12 column">
+		<h1>Your Cart</h1>
+	</div>
+</div>
+
+<form action="/cart" method="post" id="cartform">
+
+<div class="row">
+    <div class="small-12 columns">
+        {% if cart.item_count == 0 %}
+            <p class="empty-cart">You have nothing in your cart.</p>
+        {% else %}
+        <div class="cart-items-wrap">
+	        <div class="row cart-headings">
+	        	<div class="small-5 large-1 column">
+	        		<p>Product</p>
+	        	</div>
+	        	<div class="small-5 show-for-large-up large-5 column">
+	        		&nbsp;
+	        	</div>
+	        	<div class="small-3 large-3 column">
+	        		<p>Quantity</p>
+	        	</div>
+	        	<div class="small-3 large-2 column">
+	        		<p>Price</p>
+	        	</div>
+	        	<div class="small-1 large-1 column">
+	        		&nbsp;
+	        	</div>
+	        </div>
+	        {% for item in cart.items %}
+	        <div class="row cart-item">
+	        	<div class="large-1 column show-for-large-up">
+	        		<a href="{{ item.product.url }}"><img src="{{ item.product.images.first | product_img_url: 'large' }}" alt="{{ item.title | escape }}" /></a>
+	        	</div>
+	        	<div class="small-5 large-5 column">
+	        		<a class="title" href="{{ item.product.url }}">{{ item.product.title }}  @ <div class="pn-price-item" data-id="{{ item.key }}">{{ item.price | money }}</div> </a>
+	        		{% assign property_size = item.properties | size %}
+					{% if property_size > 0 %}
+					  {% for p in item.properties %}
+					    {% unless p.last == blank %}
+					      {{ p.first }}:
+					      {{ p.last }}
+					      <br>
+					    {% endunless %}
+					  {% endfor %}
+					{% endif %}
+	        	</div>
+              
+
+              
+	        	<div class="small-3 large-3 column">
+	        		<input type="number" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}">
+	        	</div>
+	        	<div class="small-3 large-2 column">
+                    <span class="hulkapps-cart-item-line-price" data-key="{{item.key}}">
+						<div class="pn-total-line-item" data-id="{{ item.key }}">{{ item.line_price | money }}</div>
+                    </span>
+	        	</div>
+	        	<div class="small-1 large-1 column text-right">
+	        		<a class="remove" href="/cart/change?line={{ forloop.index }}&quantity=0" title="Remove">&times;</a>
+	        	</div>
+	        </div>
+	        {% endfor %}
+	    </div>
+        <div class="row cart-actions">
+          	<div class="columns large-5">
+              <div class="cart-note">
+                <div>{{ settings.cart_note_heading }}</div>
+              	<textarea class="cart-note" rows="4" cols="50" name="note">{{ cart.note }}</textarea>
+              </div>
+          	</div>
+        	<div class="columns large-6 right text-right cart-totals-buttons">
+        	 <p class="subtotal">Subtotal {{ cart.total_price amount | money }}
+			</p>
+              
+            
+			
+        	 <button class="button-black-outlined-icon-arrow button-full" type="submit">Update cart</button>              
+                         
+              <button class="button-black-icon-arrow button-full" type="submit" name="checkout">Check out</button>
+			
+              <div class="shipping-message">{{settings.shipping_message}}</div>
+        	</div>
+        	
+        </div>
+           
+            
+            
+
+           
+
+        {% endif %}
+
+    </div>
+</div>
+
+</form>

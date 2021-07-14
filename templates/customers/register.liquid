@@ -1,0 +1,59 @@
+{% layout settings.customer_layout %}
+<div class="row page-title">
+	<div class="small-12 column">
+		<h1>Create Login</h1>
+	</div>
+</div>
+
+<div class="row">
+	<div class="large-12 columns">
+		<div id="customer">
+	  	  	<!-- Create Customer -->
+			<div id="create-customer">
+				{% form 'create_customer' %}
+				  {{ form.errors | default_errors }}
+			  
+				<div class="row">
+					<div class="small-12 column">
+						<ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2">
+						  <li>
+							<label for="first_name" class="login">First Name</label>
+							<input type="text" value="" name="customer[first_name]" id="first_name" class="large" size="30" />
+						  </li>
+		
+						  <li>
+							<label for="last_name" class="login">Last Name</label>
+							<input type="text" value="" name="customer[last_name]" id="last_name" class="large" size="30" />
+						  </li>
+		
+						  <li>
+							<label for="email" class="login">Email Address</label>
+							<input type="email" value="" name="customer[email]" id="email" class="large" size="30" />
+						  </li>
+		
+						  <li>
+							<label for="password" class="login">Password</label>
+							<input type="password" value="" name="customer[password]" id="password" class="large password" size="30" />
+						  </li>
+						</ul>
+					</div>
+				</div>
+	
+				<div>
+					<input type="submit" value="Create" />
+				</div>
+				
+	
+				{% endform %}
+		  </div>
+		  <!-- /#create-customer -->
+	  </div>
+	</div>
+</div>
+<div class="row">
+	<div class="small-12 column">
+					<p>Already have an account? {{ 'Login' | customer_login_link }}
+					<br />
+					<a href="{{ shop.url }}">Return to Store</a></p>
+	</div>
+</div>
